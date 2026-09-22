@@ -99,7 +99,6 @@ affordability_hundred=st.checkbox("Project is 100% affordable housing")
 map_used=st.checkbox("Project uses a subdivision or parcel map?")
 st.write("---")
 #applying fees. All start as applied and then get exempted
-st.write("The following fees apply to this project:")
 fees_apply = {
     "community_facilities": True,
     "housing": True,
@@ -133,10 +132,15 @@ if project_type=="Single-family home remodels or additions" or affordability_hun
         fees_apply[key]=False
 
 
-#Writes all applying fees
-for key, value in fees_apply.items():
-    if value:
-        st.write(f"{key} applies :/")
+#Writes all applying fees, or a clear message if fully exempt
+if any(fees_apply.values()):
+    st.write("The following fees apply to this project:")
+    for key, value in fees_apply.items():
+        if value:
+            st.write(f"{key} applies :/")
+else:
+    st.success("This project is FULLY EXEMPT from all impact fees. THE TOTAL FEE IS $0.00")
+    st.stop()
 
 
 
